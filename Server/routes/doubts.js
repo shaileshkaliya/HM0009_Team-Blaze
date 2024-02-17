@@ -31,6 +31,7 @@ router.post("/doubt", async (req, res) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         await doubt.save({ session });
+        res.json("done")
         existingUser.doubtsAsked.push(doubt);
         await existingUser.save({ session });
         await session.commitTransaction();
