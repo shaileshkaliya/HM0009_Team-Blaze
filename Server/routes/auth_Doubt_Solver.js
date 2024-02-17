@@ -84,7 +84,35 @@ router.post("/login", [
 
 })
 
+router.put("/update", async (req, res) => {
 
+    const { name, username, mail, bio, description, expertise, contact_no, linkedin, insta, whatsapp } = req.body;
 
+    try {
+        // Find the user by their username
+        let user = await User_Doubt_Solver.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
 
-module.exports = router
+        // Update user information with the new data
+        user.mail = mail;
+        user.bio = bio;
+        user.description = description;
+        user.expertise = expertise;
+        user.contact_no = contact_no;
+        user.linkedin = linkedin;
+        user.insta = insta;
+        user.whatsapp = whatsapp;
+
+        await user.save();
+
+        res.json({ message: "User information updated successfully", user });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal server error");
+    }
+});
+
+module.exports = router;

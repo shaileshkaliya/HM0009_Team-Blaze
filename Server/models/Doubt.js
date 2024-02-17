@@ -19,5 +19,5 @@ const DoubtSchema = new Schema({
     
 })
 
-const Doubt_Schema = mongoose.model('doubt_schema', DoubtSchema)
-module.exports=Doubt_Schema
+const Doubt = mongoose.model('doubt_schema', DoubtSchema)
+module.exports=Doubt

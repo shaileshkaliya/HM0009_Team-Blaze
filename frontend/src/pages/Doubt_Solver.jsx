@@ -14,7 +14,7 @@ import insta from "../assets/insta.png";
 import EditInfo from "./EditInfo";
 
 import profilepic from "../assets/profilepic.webp";
-function Profile() {
+function Doubt_Solver() {
   const navigate = useNavigate();
   const [isAbout, setIsAbout] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
@@ -195,4 +195,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Doubt_Solver;
