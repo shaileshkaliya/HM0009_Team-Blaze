@@ -9,6 +9,9 @@ import {
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Profile from './pages/Profile.jsx';
+import StudentProfile from './pages/StudentProfile.jsx';
+import AskDoubt from './pages/AskDoubt.jsx';
+import EditInfo from './pages/EditInfo.jsx';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
   {
     path:'/profile',
     element:<Profile />
+  },
+  {
+    path:'/studentprofile',
+    element:<StudentProfile />
+  },
+  {
+    path:'/askdoubt',
+    element:<AskDoubt />
+  },
+  {
+    path:'/editInfo',
+    element:<EditInfo />
   }
 ]);
 

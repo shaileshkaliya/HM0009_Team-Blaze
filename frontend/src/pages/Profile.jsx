@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./profile.css";
+import { useNavigate } from "react-router-dom";
 import home from "../assets/home.gif";
 import search from "../assets/search.gif";
 import logout from "../assets/logout2.png";
@@ -10,33 +11,56 @@ import linkedin from "../assets/linkedin.png";
 import wp from "../assets/whatsapp.png";
 import call from "../assets/call.png";
 import insta from "../assets/insta.png";
+import EditInfo from "./EditInfo";
 
 import profilepic from "../assets/profilepic.webp";
 function Profile() {
+  const navigate = useNavigate();
   const [isAbout, setIsAbout] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="w-1/5 h-full flex flex-col justify-between border-2 border-r-gray-500">
         <div className="w-full flex flex-col justify-start gap-6 pt-20">
-          <div className="flex items-center px-8 gap-4">
+          <div
+            className="flex items-center px-8 gap-4 cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             <img src={home} alt="" className="w-[35px] " />
             Home
           </div>
-          <div className="flex items-center px-8 gap-4">
+          <div
+            className="flex items-center px-8 gap-4 cursor-pointer"
+            onClick={() => {
+              navigate("/search");
+            }}
+          >
             <img src={search} alt="" className="w-[35px] " />
             Search
           </div>
-          <div className="flex items-center px-8 gap-4">
+          <div
+            className="flex items-center px-8 gap-4 cursor-pointer"
+            onClick={() => {
+              navigate("/askDoubt");
+            }}
+          >
             <img src={create} alt="" className="w-[35px] " />
             Ask Doubt
           </div>
-          <div className="flex items-center px-8 gap-4">
+          <div
+            className="flex items-center px-8 gap-4 cursor-pointer"
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
             <img src={profile} alt="" className="w-[35px] " />
             Profile
           </div>
         </div>
-        <div className="flex items-center px-8 gap-4 pb-8">
+        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer">
           <img src={logout} alt="" className="w-[35px] " />
           Logout
         </div>
@@ -48,7 +72,12 @@ function Profile() {
           <div className="w-full h-full flex flex-col justify-evenly  pt-2">
             <div className="w-full flex gap-8 items-center mb-4">
               <h1 className="font-bold text-lg ">Username</h1>
-              <button className="bg-gray-300 py-1 px-3 rounded-lg">
+              <button
+                className="bg-gray-300 py-1 px-3 rounded-lg"
+                onClick={() => {
+                  setIsEdit(true);
+                }}
+              >
                 Edit Profile
               </button>
             </div>
@@ -86,70 +115,81 @@ function Profile() {
           </div>
         </div>
 
-        <div className="w-full flex justify-evenly ">
-          <span
-            className={`border-2 w-full p-2 cursor-pointer font-bold text-center ${isAbout ? "bg-gray-200 border-2 border-[#FF0063]" : ""}`}
-            onClick={() => setIsAbout(true)}
-          >
-            {" "}
-            About
-          </span>
-          <span
-            className={`border-2 w-full p-2 cursor-pointer font-bold text-center ${!isAbout ? "bg-gray-200 border-2 border-[#FF0063]" : ""}`}
-            onClick={() => {
-              setIsAbout(false);
-            }}
-          >
-            Doubts Solved
-          </span>
-        </div>
-        <div className="w-full h-[1px] bg-black" />
-
-        <div className="overflow-y-scroll w-full">
-          {isAbout ? (
-            <div className="border-2 py-4 px-8">
-              <div>
-                <h2 className="font-bold mb-2 text-xl text-[#FF0063]">
-                  About Me :{" "}
-                </h2>
-                <p className="mb-4 text-md font-semibold">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Eaque blanditiis nulla sed laboriosam dolore voluptatum
-                  tempora, incidunt necessitatibus culpa! Dolorum, numquam error
-                  iusto repellendus nemo enim, quibusdam omnis, labore esse
-                  vitae blanditiis cum. Fuga quia nobis labore earum. Amet est
-                  numquam quia reprehenderit recusandae. Esse quam, velit
-                  aspernatur officiis sapiente tempore dolorem! Ipsam provident
-                  incidunt quas, maiores ut sunt aperiam repudiandae odit
-                  temporibus dolores iste autem quod eius dolorum deleniti nulla
-                  voluptatem molestias perferendis assumenda excepturi itaque
-                  alias ipsum veniam. Atque aspernatur veritatis esse
-                  praesentium quisquam illo impedit dolorem! Tempore ipsum
-                  molestias ex quisquam blanditiis, eos quod. Debitis, ex modi?
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-bold mb-2 text-xl text-[#FF0063]">
-                  Expertise In :{" "}
-                </h2>
-                <p className="font-semibold">App Development</p>
-                <p className="font-semibold">Web Development</p>
-                <p className="font-semibold">Machine Learning</p>
-                <p className="font-semibold">Generative AI</p>
-                <p className="font-semibold">Backend Development</p>
-              </div>
+        {!isEdit ? (
+          <div className="w-full h-full">
+            <div className="w-full flex justify-evenly ">
+              <span
+                className={`border-2 w-full p-2 cursor-pointer font-bold text-center ${
+                  isAbout ? "bg-gray-200 border-2 border-[#FF0063]" : ""
+                }`}
+                onClick={() => setIsAbout(true)}
+              >
+                {" "}
+                About
+              </span>
+              <span
+                className={`border-2 w-full p-2 cursor-pointer font-bold text-center ${
+                  !isAbout ? "bg-gray-200 border-2 border-[#FF0063]" : ""
+                }`}
+                onClick={() => {
+                  setIsAbout(false);
+                }}
+              >
+                Doubts Solved
+              </span>
             </div>
-          ) : (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <div className="w-[400px] h-[50px] bg-red-500" />
-              <div className="w-[400px] h-[50px] bg-red-500" />
-              <div className="w-[400px] h-[50px] bg-red-500" />
-              <div className="w-[400px] h-[50px] bg-red-500" />
-              <div className="w-[400px] h-[50px] bg-red-500" />
+            <div className="w-full h-[1px] bg-black" />
+
+            <div className="overflow-y-scroll w-full">
+              {isAbout ? (
+                <div className="border-2 py-4 px-8">
+                  <div>
+                    <h2 className="font-bold mb-2 text-xl text-[#FF0063]">
+                      About Me :{" "}
+                    </h2>
+                    <p className="mb-4 text-md font-semibold">
+                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                      Eaque blanditiis nulla sed laboriosam dolore voluptatum
+                      tempora, incidunt necessitatibus culpa! Dolorum, numquam
+                      error iusto repellendus nemo enim, quibusdam omnis, labore
+                      esse vitae blanditiis cum. Fuga quia nobis labore earum.
+                      Amet est numquam quia reprehenderit recusandae. Esse quam,
+                      velit aspernatur officiis sapiente tempore dolorem! Ipsam
+                      provident incidunt quas, maiores ut sunt aperiam
+                      repudiandae odit temporibus dolores iste autem quod eius
+                      dolorum deleniti nulla voluptatem molestias perferendis
+                      assumenda excepturi itaque alias ipsum veniam. Atque
+                      aspernatur veritatis esse praesentium quisquam illo
+                      impedit dolorem! Tempore ipsum molestias ex quisquam
+                      blanditiis, eos quod. Debitis, ex modi?
+                    </p>
+                  </div>
+
+                  <div>
+                    <h2 className="font-bold mb-2 text-xl text-[#FF0063]">
+                      Expertise In :{" "}
+                    </h2>
+                    <p className="font-semibold">App Development</p>
+                    <p className="font-semibold">Web Development</p>
+                    <p className="font-semibold">Machine Learning</p>
+                    <p className="font-semibold">Generative AI</p>
+                    <p className="font-semibold">Backend Development</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col justify-center items-center gap-4 border-2">
+                  <div className="w-[400px] h-[50px] bg-red-500" />
+                  <div className="w-[400px] h-[50px] bg-red-500" />
+                  <div className="w-[400px] h-[50px] bg-red-500" />
+                  <div className="w-[400px] h-[50px] bg-red-500" />
+                  <div className="w-[400px] h-[50px] bg-red-500" />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <EditInfo />
+        )}
       </div>
     </div>
   );

@@ -85,7 +85,6 @@ function Login() {
             </button>
 
             <button
-              // className="button-48-2"
               className={`button-48-2 ${!isStudent ? "bg-[#27f7357a]" : ""}`}
               role="button"
               onClick={() => {
