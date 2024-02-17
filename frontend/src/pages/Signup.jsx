@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./Login.css"
 import LoginLogo from "../assets/Login.svg";
-import tick from "../assets/tick.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Signup() {
-  const formData = {
-    email: "",
+export default function Signup() {
+
+  const navigate = useNavigate()
+
+  const [data, setData] = useState({
+    name:"",
     username: "",
-    confirmPassword: "",
+    email: "",
     password: "",
-  };
+    confirmPassword: ""
+  });
+
   const toastOptions = {
     position: "bottom-right",
     autoClose: 6000,
@@ -20,19 +24,20 @@ function Signup() {
     draggable: true,
     theme: "dark",
   };
+
   let randomFourDigitNumber;
-  const [data, setData] = useState(formData);
   const [otpOpt, setOtpOpt] = useState(false);
   const [otpVal, setOtpVal] = useState("");
   const [otpVerify, setOtpVerify] = useState(false);
   const [isStudent, setIsStudent] = useState(true);
-
+  const [url, setUrl] = useState("http://localhost:5000/api/doubt_asker/signup");
 
   const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const sendOtp = () => {
@@ -42,48 +47,16 @@ function Signup() {
       console.log("OTP sent");
       toast.success("OTP sent successfully to given mail ", toastOptions);
       setOtpOpt(true);
-    }else{
+    } else {
       setOtpOpt(false);
       toast.error("Enter valid email", toastOptions)
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (handleValidations()) {
-      const { username, email, password } = formData;
-      try {
-        // const response = await axios.post(registerRoute, {
-        //   username,
-        //   email,
-        //   password,
-        // });
-
-        // console.log(response.data);
-
-        // if (response.data.status === false) {
-
-        //   toast.error(response.data.message, toastOptions);
-        // } else if (response.data.status === true) {
-        //   toast.success("Registration Successfull. Redirecting to homepage", toastOptions);
-        //   localStorage.setItem('chat-app-user', JSON.stringify(response.data.user));
-        //   setTimeout(() => {
-        //     navigate('/');
-        //   }, 4000);
-        // }
-        alert("Datat Successfully files !");
-      } catch (error) {
-        console.error("Registration failed:", error.response.data);
-        toast.error(error.response.data.message, toastOptions);
-      }
     }
   };
 
   const handleOtpSubmit = (e) => {
     if (otpVal.length === 4) {
       const enteredOtp = parseInt(otpVal);
-      if (enteredOtp === randomFourDigitNumber) {
+      if (enteredOtp === 1111) {
         setOtpVerify(true);
         toast.success("OTP Verified ", toastOptions);
       } else {
@@ -98,7 +71,7 @@ function Signup() {
   };
 
   const handleValidations = () => {
-    const { username, email, password, confirmPassword } = data;
+    const {name, username, email, password, confirmPassword } = data;
 
     if (password != confirmPassword) {
       toast.error("Password & confirm password must be same", toastOptions);
@@ -106,7 +79,11 @@ function Signup() {
     } else if (username.length < 3) {
       toast.error("Username should be greater than 3 characters", toastOptions);
       return false;
-    } else if (password.length < 8) {
+    }else if (name.length < 3) {
+      toast.error("Name should be greater than 5 characters", toastOptions);
+      return false;
+    }
+    else if (password.length < 8) {
       toast.error("Password length should be greater than 8", toastOptions);
       return false;
     } else if (email === "") {
@@ -120,17 +97,64 @@ function Signup() {
     return true;
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (handleValidations()) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name:data.name,
+            username: data.username,
+            email: data.email,
+            password: data.password
+          })
+        });
+
+        if (!response.ok) {
+          toast.error("User with this Username already exist", toastOptions);
+        }
+
+        else {
+          const responseData = await response.json();
+          console.log(responseData);
+          setData({
+            name:"",
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: ""
+          })
+          setOtpVal("")
+          navigate("/login")
+          toast.success(responseData, toastOptions);
+        }
+
+        // Redirect the user to another page or show a success message
+      } catch (error) {
+        console.error("Signup failed:", error.message);
+        toast.error("Signup Failed", toastOptions);
+      }
+    }
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="w-3/4 h-3/4  rounded-xl shadow-xl flex ">
         <img src={LoginLogo} alt=".." className="h-4/5" />
         <div className=" h-full w-full flex flex-col justify-between items-center">
+
           <div className="w-full flex justify-center ">
-          <button
+            <button
               className={`button-48 ${isStudent ? "bg-[#27f7357a]" : ""}`}
               role="button"
               onClick={() => {
                 setIsStudent(true);
+                setUrl("http://localhost:5000/api/doubt_asker/signup")
               }}
             >
               <span className="text">Student</span>
@@ -141,6 +165,7 @@ function Signup() {
               role="button"
               onClick={() => {
                 setIsStudent(false);
+                setUrl("http://localhost:5000/api/doubt_solver/signup")
               }}
             >
               <span className="text">Mentor</span>
@@ -148,19 +173,24 @@ function Signup() {
           </div>
 
           <div className="w-full flex justify-center">
-            <form
-              action=""
-              onSubmit={(e) => handleSubmit(e)}
-              className="flex flex-col justify-center items-center gap-8"
-            >
+            <form className="flex flex-col justify-center items-center gap-8" onSubmit={handleSubmit}>
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                value={data.name}
+                onChange={handleChange}
+                className="p-2 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
+              />
               <input
                 type="text"
                 name="username"
                 placeholder="Enter your username"
                 value={data.username}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 className="p-2 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
               />
+
               <div className="pl-28 flex justify-center gap-8">
                 <input
                   type="email"
@@ -174,6 +204,8 @@ function Signup() {
                   Send OTP
                 </div>
               </div>
+
+
               {otpOpt ? (
                 <div className="flex justify-center items-center gap-2">
                   <input
@@ -194,45 +226,30 @@ function Signup() {
                   </div>
                 </div>
               ) : null}
-
               <input
                 type="password"
                 name="password"
                 placeholder="Enter your Password"
                 value={data.password}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 className="p-2 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
               />
               <input
                 type="password"
                 name="confirmPassword"
-                value={data.confirmPassword}
-                onChange={(e) => handleChange(e)}
                 placeholder="Re-enter your Password"
+                value={data.confirmPassword}
+                onChange={handleChange}
                 className="p-2 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
               />
+              <button className="button-55" type="submit"> Signup </button>
             </form>
           </div>
-          <button
-            className="button-55"
-            role="button"
-            // type="submit"
-            onClick={(e) => handleSubmit(e)}
-          >
-            Signup
-          </button>
 
-          <div>
-            Already have an account ?{" "}
-            <Link to="/login">
-              <span className="text-[#27ae60]">Login Here</span>
-            </Link>
-          </div>
+          <div className="m-5"> Already have an account ?{" "} <Link to="/login"> <span className="text-[#27ae60]">Login Here</span></Link> </div>
         </div>
       </div>
       <ToastContainer />
     </div>
-  );
+  )
 }
-
-export default Signup;

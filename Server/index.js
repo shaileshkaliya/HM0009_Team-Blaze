@@ -3,6 +3,8 @@ const app = express();
 const path = require("path");
 const port = 5000;
 const connectToMongo = require("./db")
+const cors = require('cors');
+app.use(cors());
 
 connectToMongo();
 

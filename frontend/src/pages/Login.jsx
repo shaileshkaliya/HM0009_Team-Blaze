@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "./Login.css";
 import LoginLogo from "../assets/Login.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
-  const formData = {
+
+  const navigate = useNavigate()
+
+  const [data, setData] = useState({
     username: "",
     password: "",
-  };
+  });
   const toastOptions = {
     position: "bottom-right",
     autoClose: 6000,
@@ -15,43 +20,52 @@ function Login() {
     draggable: true,
     theme: "dark",
   };
-  const [data, setData] = useState(formData);
+
   const [isStudent, setIsStudent] = useState(true);
+  const [url, setUrl] = useState("http://localhost:5000/api/doubt_asker/login");
 
   const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (handleValidations()) {
-      const { username, password } = data;
       try {
-        // const response = await axios.post(loginRoute, {
-        //   username,
-        //   password
-        // });
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: data.username,
+            password: data.password
+          })
+        });
 
-        // console.log(response.data);
+        if (!response.ok) {
+          toast.error("Please try to login with correct credentials", toastOptions);
+        }
 
-        // if (response.data.status === false) {
+        else {
+          const responseData = await response.json();
+          console.log(responseData);
+          toast.success(responseData, toastOptions);
+          setData({
+            username: "",
+            password: "",
+          })
+          navigate("/profile");
+        }
 
-        //   toast.error(response.data.message, toastOptions);
-        // } else if (response.data.status === true) {
-        //   toast.success("Login Successfull. Redirecting to homepage", toastOptions);
-        //   localStorage.setItem('chat-app-user', JSON.stringify(response.data.user));
-        //   setTimeout(() => {
-        //     navigate('/');
-        //   }, 4000);
-        // }
-        alert("Login...");
+        // Redirect the user to another page or show a success message
       } catch (error) {
-        console.error("Registration failed:", error.response.data);
-        toast.error(error.response.data.message, toastOptions);
+        console.error("Signup failed:", error.message);
+        toast.error("Login Failed", toastOptions);
       }
     }
   };
@@ -79,17 +93,18 @@ function Login() {
               role="button"
               onClick={() => {
                 setIsStudent(true);
+                setUrl("http://localhost:5000/api/doubt_asker/login")
               }}
             >
               <span className="text">Student</span>
             </button>
 
             <button
-              // className="button-48-2"
               className={`button-48-2 ${!isStudent ? "bg-[#27f7357a]" : ""}`}
               role="button"
               onClick={() => {
                 setIsStudent(false);
+                setUrl("http://localhost:5000/api/doubt_solver/login")
               }}
             >
               <span className="text">Mentor</span>
@@ -97,17 +112,13 @@ function Login() {
           </div>
 
           <div className="w-full flex justify-center">
-            <form
-              action=""
-              onSubmit={(e) => handleSubmit(e)}
-              className="flex flex-col justify-center items-center gap-8"
-            >
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-8">
               <input
                 type="text"
                 name="username"
                 placeholder="Enter your username"
                 value={data.username}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 className="p-3 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
               />
               <input
@@ -115,14 +126,12 @@ function Login() {
                 name="password"
                 placeholder="Enter your Password"
                 value={data.password}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 className="p-3 rounded-lg text-[#000000] outline-none pl-4 w-[300px] shadow1"
               />
+              <button class="button-55" type="submit" >Login</button>
             </form>
           </div>
-          <button class="button-55" role="button" >
-            Login
-          </button>
 
           <div>
             Don't have an account ?{" "}
@@ -132,6 +141,7 @@ function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

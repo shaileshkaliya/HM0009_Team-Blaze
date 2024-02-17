@@ -4,20 +4,20 @@ const { Schema } = mongoose
 const DoubtSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'user_doubt_asker'
+        ref:'User_Doubt_Asker'
     },
     title: {
         type: String,
         required:true
     },
     description: {
-        type: String,
-        unique:true
+        type: String
     },
-    date: {
-        type: Date,
-        default:Date.now
+    category: {
+        type: String
     },
+    
 })
 
-module.exports=mongoose.model('doubt_schema',DoubtSchema)
+const Doubt_Schema = mongoose.model('doubt_schema', DoubtSchema)
+module.exports=Doubt_Schema
