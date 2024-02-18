@@ -1,8 +1,8 @@
 import Signup from './pages/Signup'
-import Login from './pages/Login'
+import Home from './pages/Home'
 
 export default function App() {
   return (
-     <h1>Hello</h1>
+     <Home />
   )
 }

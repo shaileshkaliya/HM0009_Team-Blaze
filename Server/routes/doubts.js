@@ -1,7 +1,19 @@
 const express = require("express");
 const router = express.Router();
+<<<<<<< HEAD
+const doubt = require("../models/Doubt");
+const User_Doubt_Asker = require("../models/User_Doubt_Asker");
+const mongoose = require("mongoose");
+const { body, validationResult } = require("express-validator");
+
+router.post("/doubt", async (req, res) => {
+    const { title, description, category, user } = req.body;
+
+    let existingUser;
+=======
 const Doubt = require("../models/Doubt");
 const User_Doubt_Asker =require("../models/User_Doubt_Asker")
+>>>>>>> 8b836b920ad4785fce849ffdcfcbb9fbb55a11b8
 
 //Route 1 Create a user using POST "/api/doubt_solver/signup"
 router.post('/doubt'
@@ -36,10 +48,32 @@ router.post('/doubt'
 
     }
 
+<<<<<<< HEAD
+    const doubt = new doubt({
+        title,
+        description,
+        category,
+        user
+    });
+
+    try {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await doubt.save({ session });
+        res.json("done")
+        existingUser.doubtsAsked.push(doubt);
+        await existingUser.save({ session });
+        await session.commitTransaction();
+        session.endSession();
+    } catch (error) {
+        console.error("Transaction failed:", error);
+        return res.status(500).json({ message: "Transaction failed" });
+=======
     // Catch Errors
     catch (error) {
         console.error(error.message);
         res.status(500).send("some error occured")
+>>>>>>> 8b836b920ad4785fce849ffdcfcbb9fbb55a11b8
     }
 
 }

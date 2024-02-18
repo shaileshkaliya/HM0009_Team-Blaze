@@ -19,5 +19,10 @@ const DoubtSchema = new Schema({
     
 })
 
+<<<<<<< HEAD
+const doubt = mongoose.model('doubt_schema', DoubtSchema)
+module.exports=doubt
+=======
 const Doubt = mongoose.model('doubt_schema', DoubtSchema)
 module.exports=Doubt
+>>>>>>> 8b836b920ad4785fce849ffdcfcbb9fbb55a11b8
