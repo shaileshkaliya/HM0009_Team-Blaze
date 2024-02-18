@@ -8,14 +8,10 @@ import {
 } from "react-router-dom";
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
-<<<<<<< HEAD
-import Profile from "./pages/Profile.jsx"
-=======
 import Profile from './pages/Profile.jsx';
 import StudentProfile from './pages/StudentProfile.jsx';
 import AskDoubt from './pages/AskDoubt.jsx';
 import EditInfo from './pages/EditInfo.jsx';
->>>>>>> fed32d5d71d528df826ca28441356805488924d9
 
 const router = createBrowserRouter([
   {
@@ -33,8 +29,6 @@ const router = createBrowserRouter([
   {
     path:'/profile',
     element:<Profile />
-<<<<<<< HEAD
-=======
   },
   {
     path:'/studentprofile',
@@ -47,7 +41,6 @@ const router = createBrowserRouter([
   {
     path:'/editInfo',
     element:<EditInfo />
->>>>>>> fed32d5d71d528df826ca28441356805488924d9
   }
 ]);
 

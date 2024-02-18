@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Doubt_Schema = require("../models/Doubt");
+const doubt = require("../models/Doubt");
 const User_Doubt_Asker = require("../models/User_Doubt_Asker");
 const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
@@ -20,7 +20,7 @@ router.post("/doubt", async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 
-    const doubt = new Doubt_Schema({
+    const doubt = new doubt({
         title,
         description,
         category,
