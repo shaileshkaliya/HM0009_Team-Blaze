@@ -16,7 +16,7 @@ The solution should help solve the lack of mentorship in education. Many student
 - React
 - Node.js
 - Python
-- Django
+- FastAPI
 - Neural Networks
 - Universal Sentence Encoder
 
