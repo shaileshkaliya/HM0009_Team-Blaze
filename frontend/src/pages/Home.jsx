@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import doubtify from "../assets/doubtify.png";
 import homepng from "../assets/homepng.jpg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import searchPng from '../assets/search.gif'
 import './home.css'
 
 
 const Home = () => {
+
   return (
     <div className="w-full h-screen">
       {/* Navbar  */}
@@ -36,7 +37,9 @@ const Home = () => {
         </div>
 
         <div className="text-lg bg-[#27f735bb] p-4 font-semibold">
-          Login/Signup
+          <NavLink to="/login" >
+            Login/Signup
+          </NavLink>
         </div>
       </div>
 
@@ -54,8 +57,8 @@ const Home = () => {
         </div>
 
         <div className="w-2/4 flex outline-none border-none rounded-md shadow-lg p-2 ">
-            <input type="text" className="w-full h-12 outline-none border-none rounded-md text-lg p-2" placeholder="Search Here for Previous Doubts"/>
-            <img src={searchPng} alt="search" className="w-12 h-12"/>
+          <input type="text" className="w-full h-12 outline-none border-none rounded-md text-lg p-2" placeholder="Search Here for Previous Doubts" />
+          <img src={searchPng} alt="search" className="w-12 h-12" />
         </div>
       </div>
     </div>

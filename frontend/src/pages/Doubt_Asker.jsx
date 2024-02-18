@@ -17,6 +17,15 @@ function Doubt_Asker() {
   const navigate = useNavigate();
   const [isAbout, setIsAbout] = useState(true);
 
+  const handleLogout = () =>
+  {
+    if (localStorage.getItem('doubtify-user'))
+    {
+      localStorage.removeItem('doubtify-user')
+      navigate("/login")
+    }
+  }
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="w-1/5 h-full flex flex-col justify-between border-2 border-r-gray-500">
@@ -51,14 +60,14 @@ function Doubt_Asker() {
           <div
             className="flex items-center px-8 gap-4 cursor-pointer"
             onClick={() => {
-              navigate("/profile");
+              navigate("/doubt_asker");
             }}
           >
             <img src={profile} alt="" className="w-[35px] " />
             Profile
           </div>
         </div>
-        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer">
+        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer"  onClick={handleLogout}>
           <img src={logout} alt="" className="w-[35px] " />
           Logout
         </div>

@@ -122,6 +122,7 @@ export default function Signup() {
         else {
           const responseData = await response.json();
           console.log(responseData);
+          localStorage.setItem('doubtify-user',data)
           setData({
             name:"",
             username: "",

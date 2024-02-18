@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
 import home from "../assets/home.gif";
@@ -15,9 +15,28 @@ import EditInfo from "./EditInfo";
 
 import profilepic from "../assets/profilepic.webp";
 function Doubt_Solver() {
-  const navigate = useNavigate();
   const [isAbout, setIsAbout] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('doubtify - user'))
+    {
+      setTimeout(() =>
+      {
+        navigate("/login")
+      },2000)
+      }
+  }, [])
+
+  const handleLogout = () =>
+  {
+    if (localStorage.getItem('doubtify-user'))
+    {
+      localStorage.removeItem('doubtify-user')
+      navigate("/login")
+    }
+  }
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -53,14 +72,14 @@ function Doubt_Solver() {
           <div
             className="flex items-center px-8 gap-4 cursor-pointer"
             onClick={() => {
-              navigate("/profile");
+              navigate("/doubt_solver");
             }}
           >
             <img src={profile} alt="" className="w-[35px] " />
             Profile
           </div>
         </div>
-        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer">
+        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer" onClick={handleLogout}>
           <img src={logout} alt="" className="w-[35px] " />
           Logout
         </div>

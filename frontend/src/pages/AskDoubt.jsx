@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
 import home from "../assets/home.gif";
@@ -10,6 +10,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AskDoubt = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('doubtify - user'))
+    {
+      toast.error("Please Login First", toastOptions);
+      setTimeout(() =>
+      {
+        navigate("/login")
+      },2000)
+      }
+  }, [])
+
+
   const formData = {
     title: "",
     description: "",
@@ -22,7 +35,6 @@ const AskDoubt = () => {
     draggable: true,
     theme: "dark",
   };
-  const navigate = useNavigate();
 
   const [data, setData] = useState(formData);
 
@@ -92,6 +104,15 @@ const AskDoubt = () => {
     }
   };
 
+  const handleLogout = () =>
+  {
+    if (localStorage.getItem('doubtify-user'))
+    {
+      localStorage.removeItem('doubtify-user')
+      navigate("/login")
+    }
+  }
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="w-1/5 h-full flex flex-col justify-between border-2 border-r-gray-500">
@@ -126,14 +147,14 @@ const AskDoubt = () => {
           <div
             className="flex items-center px-8 gap-4 cursor-pointer"
             onClick={() => {
-              navigate("/profile");
+              navigate("/doubt_asker");
             }}
           >
             <img src={profile} alt="" className="w-[35px] " />
             Profile
           </div>
         </div>
-        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer">
+        <div className="flex items-center px-8 gap-4 pb-8 cursor-pointer" onClick={handleLogout}>
           <img src={logout} alt="" className="w-[35px] " />
           Logout
         </div>

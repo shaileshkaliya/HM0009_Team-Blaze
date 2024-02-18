@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import LoginLogo from "../assets/Login.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,23 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
+
+  useEffect(() => {
+    if (localStorage.getItem('doubtify-user'))
+    {
+      if(isStudent)
+          {
+            navigate("/doubt_asker");
+            }
+          else
+          {
+            navigate("/doubt_solver");
+            }
+    }
+  
+    
+  }, [])
+  
 
   const navigate = useNavigate()
 
@@ -54,6 +71,7 @@ function Login() {
         else {
           const responseData = await response.json();
           console.log(responseData);
+          localStorage.setItem('doubtify-user',data)
           toast.success(responseData, toastOptions);
           setData({
             username: "",

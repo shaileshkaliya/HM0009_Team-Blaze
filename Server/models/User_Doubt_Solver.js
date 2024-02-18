@@ -31,7 +31,7 @@ const User_Doubt_Solver_Schema = new Schema({
         type: String,
         default: ""
     },
-    contact: {
+    contact_no: {
         type: String,
         default: ""
     },
@@ -43,7 +43,7 @@ const User_Doubt_Solver_Schema = new Schema({
         type: String,
         default: ""
     },
-    instagram: {
+    insta: {
         type: String,
         default: ""
     }
