@@ -59,7 +59,14 @@ function Login() {
             username: "",
             password: "",
           })
-          navigate("/profile");
+          if(isStudent)
+          {
+            navigate("/doubt_asker");
+            }
+          else
+          {
+            navigate("/doubt_solver");
+            }
         }
 
         // Redirect the user to another page or show a success message

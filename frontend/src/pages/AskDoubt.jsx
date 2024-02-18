@@ -36,48 +36,60 @@ const AskDoubt = () => {
   const handleValidations = () => {
     const { title, description, category } = data;
 
-    if (title==="") {
+    if (title === "") {
       toast.error("Title is required", toastOptions);
       return false;
-    } else if (description==="") {
+    } else if (description === "") {
       toast.error("Description is required", toastOptions);
       return false;
-    }else if (category==="") {
-        toast.error("Category is required", toastOptions);
-        return false;
-      }
+    } else if (category === "") {
+      toast.error("Category is required", toastOptions);
+      return false;
+    }
 
     return true;
   };
 
-  const postData = () => {
+  const postData = async () => {
     if (handleValidations()) {
-        const { title, description, category } = data;        
-        try {
-          // const response = await axios.post(registerRoute, {
-          //   username,
-          //   email,
-          //   password,
-          // });
-  
-          // console.log(response.data);
-  
-          // if (response.data.status === false) {
-  
-          //   toast.error(response.data.message, toastOptions);
-          // } else if (response.data.status === true) {
-          //   toast.success("Registration Successfull. Redirecting to homepage", toastOptions);
-          //   localStorage.setItem('chat-app-user', JSON.stringify(response.data.user));
-          //   setTimeout(() => {
-          //     navigate('/');
-          //   }, 4000);
-          // }
-          alert("Datat Successfully files !");
-        } catch (error) {
-          console.error("Registration failed:", error.response.data);
-          toast.error(error.response.data.message, toastOptions);
+      const { title, description, category } = data;
+
+      try {
+        const response = await fetch("http://localhost:5000/api/doubts/doubt", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user: "65d124ccec98bb41c59e98cb",
+            title: data.title,
+            description: data.description,
+            category: data.category
+          })
+        });
+
+        if (!response.ok) {
+          toast.error("User with this Username already exist", toastOptions);
         }
+
+        else {
+          const responseData = await response.json();
+          console.log(responseData);
+          setData({
+            title: "",
+            description: "",
+            category: "",
+          })
+          navigate("/profile")
+          toast.success(responseData, toastOptions);
+        }
+
+        // Redirect the user to another page or show a success message
+      } catch (error) {
+        console.error("Signup failed:", error.message);
+        toast.error("Posting The Doubt Failed", toastOptions);
       }
+    }
   };
 
   return (
@@ -137,7 +149,7 @@ const AskDoubt = () => {
             placeholder="Enter your problem title"
             name="title"
             value={data.title}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="w-5/6 p-4 rounded-md shadow-lg outline-none border-none"
           />
           <div className="w-5/6 h-[1px] bg-black" />
@@ -147,7 +159,7 @@ const AskDoubt = () => {
             placeholder="Enter your problem description"
             name="description"
             value={data.description}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           <div className="w-5/6 h-[1px] bg-black" />
           <input
@@ -155,7 +167,7 @@ const AskDoubt = () => {
             placeholder="Enter your problem category"
             name="category"
             value={data.category}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="w-5/6 p-4 rounded-md shadow-lg outline-none border-none"
           />
           <button

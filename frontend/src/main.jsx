@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
-import Profile from './pages/Profile.jsx';
-import StudentProfile from './pages/StudentProfile.jsx';
+import Doubt_Solver from "./pages/Doubt_Solver.jsx"
+import Doubt_Asker from './pages/Doubt_Asker.jsx';
 import AskDoubt from './pages/AskDoubt.jsx';
 import EditInfo from './pages/EditInfo.jsx';
 
@@ -19,28 +19,28 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path:'/login',
-    element:<Login />
-  }, 
-  {
-    path:'/signup',
-    element:<Signup />
+    path: '/login',
+    element: <Login />
   },
   {
-    path:'/profile',
-    element:<Profile />
+    path: '/signup',
+    element: <Signup />
   },
   {
-    path:'/studentprofile',
-    element:<StudentProfile />
+    path: '/doubt_solver',
+    element: <Doubt_Solver />
   },
   {
-    path:'/askdoubt',
-    element:<AskDoubt />
+    path: '/doubt_asker',
+    element: <Doubt_Asker />
   },
   {
-    path:'/editInfo',
-    element:<EditInfo />
+    path: '/askdoubt',
+    element: <AskDoubt />
+  },
+  {
+    path: '/editInfo',
+    element: <EditInfo />
   }
 ]);
 

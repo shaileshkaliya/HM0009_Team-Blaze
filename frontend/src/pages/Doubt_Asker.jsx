@@ -13,7 +13,7 @@ import call from "../assets/call.png";
 import insta from "../assets/insta.png";
 
 import profilepic from "../assets/profilepic.webp";
-function StudentProfile() {
+function Doubt_Asker() {
   const navigate = useNavigate();
   const [isAbout, setIsAbout] = useState(true);
 
@@ -118,4 +118,4 @@ function StudentProfile() {
   );
 }
 
-export default StudentProfile;
+export default Doubt_Asker;

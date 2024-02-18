@@ -63,8 +63,50 @@ function EditInfo() {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    if (handleValidations())
+    {
+      try {
+        const response = await fetch("http://localhost:5000/api/doubt_solver/update", {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name:data.name,
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            bio:data.bio,
+            description: data.description,
+            expertise: data.expertise,
+            contact_no: data.contact_no,
+            linkedin:data.linkedin,
+            insta: data.insta,
+            whatsapp: data.whatsapp
+          })
+        });
+
+        if (!response.ok) {
+          toast.error("User with this Username does not exist", toastOptions);
+        }
+
+        else {
+          const responseData = await response.json();
+          console.log(responseData);
+          // navigate("/login")
+          toast.success("The Information Updated Successfully", toastOptions);
+        }
+
+        // Redirect the user to another page or show a success message
+      } catch (error) {
+        console.error("Update failed:", error.message);
+        toast.error("Update Failed", toastOptions);
+      }
+      
+      }
+
   };
 
 
@@ -88,6 +130,7 @@ function EditInfo() {
           placeholder="Enter your username"
           name="username"
           value={data.username}
+          
           className="w-5/6 p-4 rounded-md shadow-lg outline-none border-none"
         />
         <input
@@ -95,7 +138,6 @@ function EditInfo() {
           placeholder="Enter your mail "
           name="mail"
           value={data.mail}
-          // onChange={(e) => handleChange(e)}
           className="w-5/6 p-4 rounded-md shadow-lg outline-none border-none"
         />
         <input
@@ -142,7 +184,7 @@ function EditInfo() {
           type="text"
           placeholder="Enter your insta id "
           name="insta"
-          value={data.insta}
+          value={data.instagram}
           onChange={(e) => handleChange(e)}
           className="w-5/6 p-4 rounded-md shadow-lg outline-none border-none"
         />
